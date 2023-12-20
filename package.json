@@ -1,0 +1,25 @@
+{
+  "name": "tradebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@traderjoe-xyz/sdk": "^5.0.0",
+    "@traderjoe-xyz/sdk-core": "^2.0.0",
+    "@traderjoe-xyz/sdk-v2": "^3.0.0",
+    "dotenv": "^16.3.1",
+    "viem": "^1.20.3"
+  }
+}
