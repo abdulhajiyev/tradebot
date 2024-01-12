@@ -1,0 +1,13 @@
+{
+  "javascript": {
+    "formatter": {
+      "arrowParentheses":"always",
+      "jsxQuoteStyle": "double",
+      "semicolons": "always",
+      "trailingComma": "all",
+      "quoteProperties": "asNeeded",
+      "bracketSpacing": true,
+      "bracketSameLine": false
+    }
+  }
+}
