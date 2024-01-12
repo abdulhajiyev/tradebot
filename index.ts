@@ -94,8 +94,10 @@ const allPairs = PairV2.initPairs(allTokenPairs);
 // generates all possible routes to consider
 const allRoutes = RouteV2.createAllRoutes(allPairs, inputToken, outputToken);
 
-const isNativeIn = false; // set to 'true' if swapping from Native; otherwise, 'false'
-const isNativeOut = true; // set to 'true' if swapping to Native; otherwise, 'false'
+/* const isNativeIn = false; // set to 'true' if swapping from Native; otherwise, 'false'
+const isNativeOut = true; // set to 'true' if swapping to Native; otherwise, 'false' */
+const isNativeIn = inputToken.equals(WAVAX);
+const isNativeOut = outputToken.equals(WAVAX);
 
 // generates all possible TradeV2 instances
 const trades = await TradeV2.getTradesExactIn(
@@ -137,22 +139,24 @@ const {
 } = bestTrade.swapCallParameters(swapOptions);
 
 // Approve
-const { request: approveRequest } = await publicClient.simulateContract({
-	address: inputToken.address as `0x${string}`,
-	abi: ERC20ABI,
-	functionName: "approve",
-	args: [router, typedValueInParsed],
-	account,
-});
+if (!isNativeIn) {
+	const { request: approveRequest } = await publicClient.simulateContract({
+		address: inputToken.address as `0x${string}`,
+		abi: ERC20ABI,
+		functionName: "approve",
+		args: [router, typedValueInParsed],
+		account,
+	});
 
-const approveHash = await walletClient.writeContract(approveRequest);
-await publicClient.waitForTransactionReceipt({
-	hash: approveHash,
-});
+	const approveHash = await walletClient.writeContract(approveRequest);
+	await publicClient.waitForTransactionReceipt({
+		hash: approveHash,
+	});
 
-console.log(
-	`Approval for amount ${typedValueIn} sent with hash ${approveHash}`,
-);
+	console.log(
+		`Approval for amount ${typedValueIn} sent with hash ${approveHash}`,
+	);
+}
 
 // Swap
 const { request: swapRequest } = await publicClient.simulateContract({
